@@ -1,12 +1,8 @@
 use bevy::prelude::{Resource, World};
 
-mod class;
 mod component;
-
-#[derive(Resource)]
-struct test {
-    i: u32,
-}
+mod macroo;
+mod spell;
 
 fn main() {
     println!("Hello, world!");
