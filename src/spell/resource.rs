@@ -3,48 +3,51 @@ use bevy::prelude::Resource;
 use super::{Class, SpellLevel, TargetAlignment, TargetBehavior};
 
 #[derive(Resource)]
-struct SpellDescriptions {
-    spell_descriptions: Vec<Vec<Vec<SpellDescription>>>,
+/// All spells has this attribute
+pub struct BasicSpellInfo {
+    descriptions_infos: Vec<SpellDescriptionInfo>,
+    target_infos: Vec<SpellTargetInfo>,
 }
-
-impl SpellDescriptions {
-    fn new() -> SpellDescriptions {
-        let mut spells = SpellDescriptions {
-            spell_descriptions: vec![],
-        };
-        for _ in Class::Bard as u8..=Class::Wizard as u8 {
-            spells.spell_descriptions.push(vec![]);
-        }
-        spells
-    }
-
-    fn push_spells(
+impl BasicSpellInfo {
+    pub fn push(
         &mut self,
-        class: Class,
-        spell_level: SpellLevel,
-        spells: Vec<SpellDescription>,
-    ) {
-        self.spell_descriptions[(class as u8) as usize][(spell_level as u8) as usize] = spells;
+        description_info: SpellDescriptionInfo,
+        target_info: SpellTargetInfo,
+    ) -> u16 {
+        self.descriptions_infos.push(description_info);
+        self.target_infos.push(target_info);
+
+        (self.target_infos.len() - 1) as u16
     }
 }
 
-#[derive(Resource)]
-struct SpellTargetInfos {
-    spell_descriptions: Vec<Vec<SpellTargetInfo>>,
+struct AoeProperties {}
+
+/// All spells has this attribute
+pub struct SpellDescriptionInfo {
+    pub name: String,
+    pub description: String,
 }
 
-struct SpellDescription {
-    id: u16,
-    name: String,
-    description: String,
-    mana_cost: u16,
+#[derive(Clone)]
+pub struct SpellTargetInfo {
+    pub range: u8,
+    pub behaviour: TargetBehavior,
+    pub aliament: TargetAlignment,
+    pub spell_level: SpellLevel,
 }
-
-struct SpellTargetInfo {
-    cost: u8,
-    range: u8,
-    behaviour: TargetBehavior,
-    aliament: TargetAlignment,
+impl SpellTargetInfo {
+    pub fn new(
+        range: u8,
+        behaviour: TargetBehavior,
+        aliament: TargetAlignment,
+        spell_level: SpellLevel,
+    ) -> Self {
+        Self {
+            range,
+            behaviour,
+            aliament,
+            spell_level,
+        }
+    }
 }
-
-fn setup() {}

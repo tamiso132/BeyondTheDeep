@@ -1,22 +1,17 @@
-use bevy::prelude::Component;
+use bevy::{
+    prelude::{Commands, Component, Entity, Query},
+    utils::HashMap,
+};
+mod implement;
 mod resource;
 
-#[derive(Component)]
-struct PreparedSpells {}
-
-#[derive(Component)]
 struct AoeProperty {
-    id: u16,
+    id: u8,
     radius: u8,
 }
 
-#[derive(Component)]
-struct MultiTargetProperty {
-    id: u16,
-    amount: u8,
-}
-
 #[repr(u8)]
+#[derive(Clone)]
 enum TargetBehavior {
     SingleTarget,
     MultiTarget,
@@ -25,12 +20,16 @@ enum TargetBehavior {
 }
 
 #[repr(u8)]
+#[derive(Clone)]
 enum TargetAlignment {
     Ally,
     Enemy,
+    Object,
+    All,
 }
 
 #[repr(u8)]
+#[derive(Clone)]
 enum SpellSchool {
     Abjuration,
     Conjuration,
@@ -43,6 +42,7 @@ enum SpellSchool {
 }
 
 #[repr(u8)]
+#[derive(Clone)]
 enum SpellLevel {
     Cantrip,
     One,
@@ -57,6 +57,7 @@ enum SpellLevel {
 }
 
 #[repr(u8)]
+#[derive(Clone)]
 enum Class {
     Bard,
     Cleric,
@@ -69,6 +70,7 @@ enum Class {
 }
 
 #[repr(u8)]
+#[derive(Clone)]
 enum Duration {
     Instant,
     Rounds(u8),

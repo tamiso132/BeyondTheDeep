@@ -1,5 +1,6 @@
 use bevy::prelude::{Resource, World};
 
+mod collider;
 mod component;
 mod macroo;
 mod spell;
