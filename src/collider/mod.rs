@@ -18,6 +18,6 @@ struct BroadTree {
     bound: (u32, u32),
 }
 
-impl BroadTree {br
+impl BroadTree {
     fn push_entity(entity: Entity) {}
 }
